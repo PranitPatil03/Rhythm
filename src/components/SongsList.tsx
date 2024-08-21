@@ -9,39 +9,33 @@ const SongsList = () => {
   const [selectedSong, setSelectedSong] = useState<string | null>(null);
 
   const handleSongClick = (songId: string) => {
-    if (selectedSong === songId) {
-      setSelectedSong(null); 
-    } else {
-      setSelectedSong(songId);
-    }
+    setSelectedSong(selectedSong === songId ? null : songId);
   };
 
   return (
     <div className="w-full max-w-[400px] mx-auto text-white p-4 rounded-lg flex flex-col">
-      <div className="sticky top-0 z-10">
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex space-x-2 sm:space-x-4">
-            <Button
-              variant="ghost"
-              onClick={() => setActiveTab("for-you")}
-              className={`px-2 sm:px-4 py-2 text-sm sm:text-lg hover:bg-transparent hover:text-white ${
-                activeTab === "for-you" ? "text-white" : "text-gray-400"
-              }`}
-            >
-              For You
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setActiveTab("top-tracks")}
-              className={`px-2 sm:px-4 py-2 text-sm sm:text-lg hover:bg-transparent hover:text-white ${
-                activeTab === "top-tracks" ? "text-white" : "text-gray-400"
-              }`}
-            >
-              Top Tracks
-            </Button>
-          </div>
+      <div className="sticky top-0 z-10 pb-4">
+        <div className="flex space-x-2 sm:space-x-4 mb-4">
+          <Button
+            variant="ghost"
+            onClick={() => setActiveTab("for-you")}
+            className={`px-2 sm:px-4 py-2 text-sm sm:text-base hover:bg-transparent hover:text-white ${
+              activeTab === "for-you" ? "text-white" : "text-gray-400"
+            }`}
+          >
+            For You
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => setActiveTab("top-tracks")}
+            className={`px-2 sm:px-4 py-2 text-sm sm:text-base hover:bg-transparent hover:text-white ${
+              activeTab === "top-tracks" ? "text-white" : "text-gray-400"
+            }`}
+          >
+            Top Tracks
+          </Button>
         </div>
-        <div className="relative mb-4">
+        <div className="relative">
           <Input
             type="text"
             placeholder="Search Song, Artist"
@@ -63,7 +57,6 @@ const SongsList = () => {
           </svg>
         </div>
       </div>
-
       <div className="overflow-y-auto flex-grow">
         <div className="space-y-4">
           {data
