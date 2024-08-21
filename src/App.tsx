@@ -1,11 +1,11 @@
 import "./App.css";
-import { Button } from "@/components/ui/button";
+import MusicPlayerPage from "./pages/MusicPlayerPage";
 
 function App() {
   return (
-    <>
-      <Button>Click me</Button>
-    </>
+    <div className="bg-gradient-to-r from-[#0A092F] to-[#000000] h-screen">
+      <MusicPlayerPage />
+    </div>
   );
 }
 
