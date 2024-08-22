@@ -1,15 +1,57 @@
-import React, { useState } from "react";
-import { Button } from "./ui/button";
-import { data } from "@/api/data";
-import { Input } from "./ui/input";
 import "../App.css";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Track } from "@/api/fetchMusic";
+import { usePlayer } from "@/context/PlayerContext";
+import { Search } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const SongsList = () => {
-  const [activeTab, setActiveTab] = useState("for-you");
-  const [selectedSong, setSelectedSong] = useState<string | null>(null);
+  const {
+    tracks,
+    currentTrack,
+    setCurrentTrack,
+    activeTab,
+    setActiveTab,
+    selectedAccent,
+    setSelectedAccent,
+    hoveredTrackId,
+    setHoveredTrackId,
+  } = usePlayer();
 
-  const handleSongClick = (songId: string) => {
-    setSelectedSong(selectedSong === songId ? null : songId);
+  const handleSongClick = (song: Track) => {
+    setCurrentTrack(currentTrack?.id === song.id ? null : song);
+    setSelectedAccent(song.accent);
+  };
+
+  const [durations, setDurations] = useState<{ [key: string]: number }>({});
+
+  useEffect(() => {
+    const loadDurations = async () => {
+      const newDurations: { [key: string]: number } = {};
+      for (const track of tracks) {
+        const duration = await getDuration(track.url);
+        newDurations[track.id] = duration;
+      }
+      setDurations(newDurations);
+    };
+
+    loadDurations();
+  }, [tracks]);
+
+  const getDuration = (url: string): Promise<number> => {
+    return new Promise((resolve) => {
+      const audio = new Audio(url);
+      audio.onloadedmetadata = () => {
+        resolve(audio.duration);
+      };
+    });
+  };
+
+  const formatDuration = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -39,56 +81,61 @@ const SongsList = () => {
           <Input
             type="text"
             placeholder="Search Song, Artist"
-            className="bg-[#59123F] text-gray-400 px-4 py-2 pr-10 rounded-md outline-none w-full shadow-sm"
+            style={{ backgroundColor: selectedAccent }}
+            className="text-gray-400 px-4 py-2 pr-10 rounded-md outline-none w-full shadow-sm"
           />
-          <svg
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          <Search
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            size={18}
+          />
         </div>
       </div>
       <div className="overflow-y-auto flex-grow">
         <div className="space-y-4">
-          {data
-            .filter((track) => activeTab === "for-you" || track.top_track)
-            .map((track) => (
-              <div
-                key={track.id}
-                onClick={() => handleSongClick(track.id.toString())}
-                className={`flex items-center justify-between rounded-md cursor-pointer p-2 ${
-                  selectedSong === track.id.toString()
-                    ? "bg-[#59123fe4]"
-                    : "hover:bg-[#59123fe4]"
-                }`}
-              >
-                <div className="flex items-center">
-                  <img
-                    src={`https://cms.samespace.com/assets/${track.cover}`}
-                    alt={track.name}
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-3 sm:mr-4"
-                  />
-                  <div>
-                    <h3 className="text-base sm:text-lg font-medium">
-                      {track.name}
-                    </h3>
-                    <p className="text-gray-400 text-xs sm:text-sm">
-                      {track.artist}
-                    </p>
+          {tracks.length > 0 ? (
+            tracks
+              .filter((track) => activeTab === "for-you" || track.top_track)
+              .map((track) => (
+                <div
+                  key={track.id}
+                  onClick={() => handleSongClick(track)}
+                  onMouseEnter={() => setHoveredTrackId(track.id)}
+                  onMouseLeave={() => setHoveredTrackId(null)}
+                  style={{
+                    backgroundColor:
+                      currentTrack?.id === track.id ||
+                      hoveredTrackId === track.id
+                        ? selectedAccent
+                        : "transparent",
+                    transition: "background-color 0.3s",
+                  }}
+                  className="flex items-center justify-between rounded-md cursor-pointer p-2"
+                >
+                  <div className="flex items-center">
+                    <img
+                      src={`https://cms.samespace.com/assets/${track.cover}`}
+                      alt={track.name}
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-3 sm:mr-4"
+                    />
+                    <div>
+                      <h3 className="text-base sm:text-lg font-medium">
+                        {track.name}
+                      </h3>
+                      <p className="text-gray-400 text-xs sm:text-sm">
+                        {track.artist}
+                      </p>
+                    </div>
                   </div>
+                  <span className="text-gray-400 text-xs sm:text-sm">
+                    {durations[track.id]
+                      ? formatDuration(durations[track.id])
+                      : "..."}
+                  </span>
                 </div>
-                <p className="text-gray-400 text-xs sm:text-sm">4.55</p>
-              </div>
-            ))}
+              ))
+          ) : (
+            <p>No tracks available.</p>
+          )}
         </div>
       </div>
     </div>

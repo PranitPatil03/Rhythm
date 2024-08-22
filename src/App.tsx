@@ -1,12 +1,31 @@
+import React from "react";
 import MusicPlayerPage from "./pages/MusicPlayerPage";
+import { PlayerProvider, usePlayer } from "@/context/PlayerContext";
+
+const BackgroundWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { selectedAccent } = usePlayer();
+
+  return (
+    <div
+      className="flex flex-col items-center justify-center p-4 w-full mx-auto min-h-screen"
+      style={{
+        background: `linear-gradient(to right, ${selectedAccent}, #000000)`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 function App() {
   return (
-    <div className="bg-gradient-to-r from-[#59123F] to-[#000000] min-h-screen">
-      <div className="flex flex-col items-center justify-center p-4 w-full max-w-7xl mx-auto">
+    <PlayerProvider>
+      <BackgroundWrapper>
         <MusicPlayerPage />
-      </div>
-    </div>
+      </BackgroundWrapper>
+    </PlayerProvider>
   );
 }
 
