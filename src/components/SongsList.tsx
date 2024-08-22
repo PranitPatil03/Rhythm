@@ -51,7 +51,7 @@ const SongsList = () => {
   const formatDuration = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -84,10 +84,7 @@ const SongsList = () => {
             style={{ backgroundColor: selectedAccent }}
             className="text-gray-400 px-4 py-2 pr-10 rounded-md outline-none w-full shadow-sm"
           />
-          <Search
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-            size={18}
-          />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
         </div>
       </div>
       <div className="overflow-y-auto flex-grow">
@@ -127,9 +124,7 @@ const SongsList = () => {
                     </div>
                   </div>
                   <span className="text-gray-400 text-xs sm:text-sm">
-                    {durations[track.id]
-                      ? formatDuration(durations[track.id])
-                      : "..."}
+                    {durations[track.id] ? formatDuration(durations[track.id]) : '...'}
                   </span>
                 </div>
               ))
