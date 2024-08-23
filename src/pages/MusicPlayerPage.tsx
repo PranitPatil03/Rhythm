@@ -8,7 +8,7 @@ const MusicPlayerPage = () => {
       <div className="w-full max-w-xs lg:w-auto">
         <Logo />
       </div>
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md lg:max-w-md ">
         <SongsList />
       </div>
       <div className="w-full max-w-sm lg:w-auto flex items-center justify-center mt-0 lg:mt-14">

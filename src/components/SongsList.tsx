@@ -1,10 +1,10 @@
 import "../App.css";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Track } from "@/api/fetchMusic";
-import { usePlayer } from "@/context/PlayerContext";
 import { Search } from "lucide-react";
+import { Track } from "@/api/fetchMusic";
 import { useState, useEffect } from "react";
+import { usePlayer } from "@/context/PlayerContext";
 
 const SongsList = () => {
   const {
@@ -25,7 +25,7 @@ const SongsList = () => {
   };
 
   const [durations, setDurations] = useState<{ [key: string]: number }>({});
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const loadDurations = async () => {
@@ -66,8 +66,11 @@ const SongsList = () => {
   });
 
   return (
-    <div className="w-full max-w-[400px] mx-auto text-white p-4 rounded-lg flex flex-col">
-      <div className="sticky top-0 z-10 pb-4">
+    <div
+      className="w-full max-w-[400px] mx-auto text-white p-4 rounded-lg flex flex-col h-[calc(100vh-100px)] sm:h-[calc(100vh-5rem)] sm:max-h-[calc(100vh-5rem)] sm:w-[400px] overflow-hidden
+                    lg:absolute lg:top-[54%] lg:left-[43%] lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2"
+    >
+      <div className="sticky top-0 z-10 pb-4 bg-background-color">
         <div className="flex space-x-2 sm:space-x-4 mb-4">
           <Button
             variant="ghost"
@@ -93,7 +96,9 @@ const SongsList = () => {
             type="text"
             placeholder="Search Song, Artist"
             value={searchQuery}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchQuery(e.target.value)
+            }
             style={{ backgroundColor: selectedAccent }}
             className="text-gray-400 px-4 py-2 pr-10 rounded-md outline-none w-full shadow-sm"
           />
@@ -119,7 +124,7 @@ const SongsList = () => {
                       : "transparent",
                   transition: "background-color 0.3s",
                 }}
-                className="flex items-center justify-between rounded-md cursor-pointer p-2"
+                className="flex items-center justify-between rounded-md cursor-pointer p-2 sm:p-3"
               >
                 <div className="flex items-center">
                   <img
@@ -128,7 +133,7 @@ const SongsList = () => {
                     className="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-3 sm:mr-4"
                   />
                   <div>
-                    <h3 className="text-base sm:text-lg font-medium">
+                    <h3 className="text-sm sm:text-base font-medium">
                       {track.name}
                     </h3>
                     <p className="text-gray-400 text-xs sm:text-sm">
