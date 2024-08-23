@@ -6,6 +6,7 @@ import React, {
   useRef,
 } from "react";
 import { Track, fetchMusic } from "@/api/fetchMusic";
+import { useMediaQuery } from "react-responsive";
 
 interface PlayerContextType {
   tracks: Track[];
@@ -22,6 +23,11 @@ interface PlayerContextType {
   audioRef: React.RefObject<HTMLAudioElement>;
   previousTrack: () => void;
   nextTrack: () => void;
+  isMobile: boolean;
+  isMobilePlayerExpanded: boolean;
+  setIsMobilePlayerExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+  showSongsList: boolean;
+  setShowSongsList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -35,6 +41,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedAccent, setSelectedAccent] = useState("#59123F");
   const [hoveredTrackId, setHoveredTrackId] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const [isMobilePlayerExpanded, setIsMobilePlayerExpanded] = useState(false);
+  const [showSongsList, setShowSongsList] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -107,6 +116,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     audioRef,
     previousTrack,
     nextTrack,
+    isMobile,
+    isMobilePlayerExpanded,
+    setIsMobilePlayerExpanded,
+    showSongsList,
+    setShowSongsList,
   };
 
   return (

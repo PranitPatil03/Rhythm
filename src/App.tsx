@@ -1,11 +1,12 @@
 import React from "react";
 import MusicPlayerPage from "./pages/MusicPlayerPage";
 import { PlayerProvider, usePlayer } from "@/context/PlayerContext";
+import MobilePlayerMobile from "./components/MobilePlayerMobile";
 
 const BackgroundWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { selectedAccent } = usePlayer();
+  const { selectedAccent, isMobile } = usePlayer();
 
   return (
     <div
@@ -15,6 +16,7 @@ const BackgroundWrapper: React.FC<{ children: React.ReactNode }> = ({
       }}
     >
       {children}
+      {isMobile && <MobilePlayerMobile />}
     </div>
   );
 };

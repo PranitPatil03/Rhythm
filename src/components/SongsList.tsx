@@ -17,11 +17,16 @@ const SongsList = () => {
     setSelectedAccent,
     hoveredTrackId,
     setHoveredTrackId,
+    setIsMobilePlayerExpanded,
+    isMobile,
   } = usePlayer();
 
   const handleSongClick = (song: Track) => {
     setCurrentTrack(currentTrack?.id === song.id ? null : song);
     setSelectedAccent(song.accent);
+    if (isMobile) {
+      setIsMobilePlayerExpanded(true);
+    }
   };
 
   const [durations, setDurations] = useState<{ [key: string]: number }>({});
@@ -68,7 +73,7 @@ const SongsList = () => {
   return (
     <div
       className="w-full max-w-[400px] mx-auto text-white p-4 rounded-lg flex flex-col h-[calc(100vh-100px)] sm:h-[calc(100vh-5rem)] sm:max-h-[calc(100vh-5rem)] sm:w-[400px] overflow-hidden
-                    lg:absolute lg:top-[54%] lg:left-[43%] lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2"
+                    lg:absolute lg:top-[54%] lg:left-[43%] lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2 z-10"
     >
       <div className="sticky top-0 z-10 pb-4 bg-background-color">
         <div className="flex space-x-2 sm:space-x-4 mb-4">
