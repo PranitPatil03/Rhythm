@@ -5,7 +5,7 @@
 
 ## 🌐 Live Demo
 
-Check out the live demo: [Rhythm on Vercel]()
+Check out the live demo: [Rhythm on Vercel](https://rhythm-iota.vercel.app/)
 
 ## 🚀 Features
 
@@ -18,8 +18,8 @@ Check out the live demo: [Rhythm on Vercel]()
 
 ## 📸 Screenshots
 
-![Mobile View](screencapture-localhost-5173-2024-08-23-19_51_48.png)
-![Desktop View](screencapture-localhost-5173-2024-08-23-19_52_11.png)
+![Mobile View](public\mobile.png)
+![Desktop View](public\desktop.png)
 
 ## 🛠️ Installation & Setup
 
