@@ -50,8 +50,8 @@ Check out the live demo: [Rhythm on Vercel](https://rhythm-iota.vercel.app/)
 
 - **ReactJS:** For building the user interface.
 - **TailwindCSS & Shadcn/UI:** For styling components.
-- **Axios/Fetch API:** For fetching song data from the REST API.
-- **Vercel/Netlify:** For deployment.
+- **Axios:** For fetching song data from the REST API.
+- **Vercel:** For deployment.
 
 ## 📡 API Reference
 
